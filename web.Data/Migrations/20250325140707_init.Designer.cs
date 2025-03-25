@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using web.Data;
@@ -12,8 +11,8 @@ using web.Data;
 namespace web.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250310155617_AddIsDeletedToTables")]
-    partial class AddIsDeletedToTables
+    [Migration("20250325140707_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,24 +20,7 @@ namespace web.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.20")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
-
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("ChallengeCreation", b =>
-                {
-                    b.Property<int>("ChallengeCreationListId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CreationChallengeListId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ChallengeCreationListId", "CreationChallengeListId");
-
-                    b.HasIndex("CreationChallengeListId");
-
-                    b.ToTable("ChallengeCreation");
-                });
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("web.Core.models.Challenge", b =>
                 {
@@ -46,33 +28,28 @@ namespace web.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<int>("CountCreations")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("WinnerCreationId")
-                        .HasColumnType("int");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -85,20 +62,26 @@ namespace web.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<int>("ChallengeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FileType")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -107,6 +90,8 @@ namespace web.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ChallengeId");
 
                     b.HasIndex("UserId");
 
@@ -119,25 +104,23 @@ namespace web.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("Role")
                         .HasColumnType("int");
@@ -150,28 +133,67 @@ namespace web.Data.Migrations
                     b.ToTable("UserList");
                 });
 
-            modelBuilder.Entity("ChallengeCreation", b =>
+            modelBuilder.Entity("web.Core.models.Vote", b =>
                 {
-                    b.HasOne("web.Core.models.Creation", null)
-                        .WithMany()
-                        .HasForeignKey("ChallengeCreationListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.HasOne("web.Core.models.Challenge", null)
-                        .WithMany()
-                        .HasForeignKey("CreationChallengeListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("CreationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("VotedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreationId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("VotesList");
                 });
 
             modelBuilder.Entity("web.Core.models.Creation", b =>
                 {
+                    b.HasOne("web.Core.models.Challenge", null)
+                        .WithMany("ChallengeCreationList")
+                        .HasForeignKey("ChallengeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("web.Core.models.User", null)
                         .WithMany("UserCreationList")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("web.Core.models.Vote", b =>
+                {
+                    b.HasOne("web.Core.models.Creation", "Creation")
+                        .WithMany()
+                        .HasForeignKey("CreationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("web.Core.models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Creation");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("web.Core.models.Challenge", b =>
+                {
+                    b.Navigation("ChallengeCreationList");
                 });
 
             modelBuilder.Entity("web.Core.models.User", b =>

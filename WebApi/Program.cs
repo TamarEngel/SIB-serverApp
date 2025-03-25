@@ -2,6 +2,7 @@ using Amazon;
 using Amazon.S3;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -27,6 +28,8 @@ builder.Services.AddSwaggerGen();
 
 
 
+
+
 builder.Services.AddScoped<IS3Service, S3Service>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -39,9 +42,16 @@ builder.Services.AddScoped<IVoteRepository, VoteRepository>();
 builder.Services.AddScoped<IEmailWinnerService, EmailWinnerService>();
 builder.Services.AddHostedService<ChallengesExpiration>();
 
-//builder.Services.AddScoped<ChallengeStatusUpdaterService>();
 
-builder.Services.AddDbContext<DataContext>();
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        new MySqlServerVersion(new Version(7, 0, 0))
+    )
+);
+
+
+
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 
