@@ -59,16 +59,15 @@ builder.Services.AddAuthentication(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuer = true,
+
+    ValidateIssuer = true,
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+        ValidIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? "https://sib-serverapp.onrender.com",
+        ValidAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? "https://sib-serverapp.onrender.com",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_KEY"))),
         RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-
-
     };
 });
 
