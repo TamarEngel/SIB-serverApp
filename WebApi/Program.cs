@@ -46,7 +46,10 @@ Console.WriteLine(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"));
 
 builder.Services.AddDbContext<DataContext>(options =>
 options.UseMySql(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"),
-new MySqlServerVersion(new Version(8, 0, 22))));
+new MySqlServerVersion(new Version(8, 0, 22)), mysqlOptions => mysqlOptions.EnableRetryOnFailure()));
+
+
+
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 
