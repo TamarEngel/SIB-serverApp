@@ -42,6 +42,7 @@ builder.Services.AddScoped<IVoteRepository, VoteRepository>();
 builder.Services.AddScoped<IEmailWinnerService, EmailWinnerService>();
 builder.Services.AddHostedService<ChallengesExpiration>();
 
+Console.WriteLine(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"));
 
 builder.Services.AddDbContext<DataContext>(options =>
 options.UseMySql(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"),
