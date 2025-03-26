@@ -14,17 +14,16 @@ namespace web.Service
         {
             try
             {
-
-                var smtpServer = Environment.GetEnvironmentVariable("SMTP_SERVER");
+                var smtpServer = Environment.GetEnvironmentVariable("EMAIL_SMTP_SERVER") ?? "";
                 //var smtpServer = _configuration["EmailSettings:SmtpServer"];
-                var port = int.Parse(Environment.GetEnvironmentVariable("EMAIL_PORT"));
+                var port = int.Parse(Environment.GetEnvironmentVariable("EMAIL_PORT") ?? "");
                 //var port = int.Parse(_configuration["EmailSettings:Port"]);
-                var senderEmail = Environment.GetEnvironmentVariable("SENDER_EMAIL");
+                var senderEmail = Environment.GetEnvironmentVariable("EMAIL_SENDER") ?? "";
                 //var senderEmail = _configuration["EmailSettings:SenderEmail"];
-                var senderPassword = Environment.GetEnvironmentVariable("SENDER_PASSWORD");
+                var senderPassword = Environment.GetEnvironmentVariable("EMAIL_PASSWORD") ?? "";
                 //var senderPassword = _configuration["EmailSettings:SenderPassword"];
 
-                using var smtp = new SmtpClient(Environment.GetEnvironmentVariable("SMTP_SERVER"))
+                using var smtp = new SmtpClient(Environment.GetEnvironmentVariable("EMAIL_SMTP_SERVER"))
                 //using var smtp = new SmtpClient("smtp.gmail.com")
                 {
                     Port = 587,
@@ -68,3 +67,5 @@ namespace web.Service
         }
     }
 }
+
+

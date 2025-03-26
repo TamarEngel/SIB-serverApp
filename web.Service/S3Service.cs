@@ -25,18 +25,22 @@ namespace web.Service
             //var secretKey = awsOptions["SecretKey"];
             //var region = awsOptions["Region"];
             //_bucketName = awsOptions["BucketName"];
+            var awsBucket = Environment.GetEnvironmentVariable("AWS_BUCKET_NAME") ?? "";
+            var awsRegion = Environment.GetEnvironmentVariable("AWS_REGION") ?? "";
+            var awsAccessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY") ?? "";
+            var awsSecretKey = Environment.GetEnvironmentVariable("AWS_SECRET_KEY") ?? "";
 
             //_s3Client = new AmazonS3Client(accessKey, secretKey, Amazon.RegionEndpoint.GetBySystemName(region));
 
             var awsOptions = configuration.GetSection("AWS");
-            //var accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY");
-            var accessKey = awsOptions["AccessKey"];
-            //var secretKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY");
-            var secretKey = awsOptions["SecretKey"];
-            //var region = Environment.GetEnvironmentVariable("AWS_REGION");
-            var region = awsOptions["Region"];
-            //_bucketName = Environment.GetEnvironmentVariable("AWS_S3_BUCKET");
-            _bucketName = awsOptions["BucketName"];
+            var accessKey = awsAccessKey;
+            //var accessKey = awsOptions["AccessKey"];
+            var secretKey = awsSecretKey;
+            //var secretKey = awsOptions["SecretKey"];
+            var region = awsRegion;
+            //var region = awsOptions["Region"];
+            _bucketName = awsBucket;
+            //_bucketName = awsOptions["BucketName"];
             //Console.WriteLine($"AWS_ACCESS_KEY: {Environment.GetEnvironmentVariable("AWS_ACCESS_KEY")}");
             //Console.WriteLine($"AWS_SECRET_KEY: {Environment.GetEnvironmentVariable("AWS_SECRET_KEY")}");
             //Console.WriteLine($"AWS_REGION: {Environment.GetEnvironmentVariable("AWS_REGION")}");

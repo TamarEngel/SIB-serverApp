@@ -123,11 +123,11 @@ var app = builder.Build();
 app.UseCors("AllowAll"); // חייב להיות לפני app.UseAuthorization()
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+
 
 app.UseHttpsRedirection();
 
@@ -136,5 +136,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGet("/",() => "SIB-Server is running");
 
 app.Run();

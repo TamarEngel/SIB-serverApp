@@ -73,7 +73,12 @@ namespace web.Service
 
         public string GenerateJwtToken(int id,int userId, string username, string email, string role)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? "https://sib-serverapp.onrender.com";
+            var jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? "https://sib-serverapp.onrender.com";
+            var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") ?? throw new InvalidOperationException("JWT_SECRET is not set");
+
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
+            //var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new List<Claim>
@@ -85,12 +90,14 @@ namespace web.Service
                 new Claim(ClaimTypes.Role, role) 
             };
             var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
+                issuer: jwtIssuer,
+                //issuer: _configuration["Jwt:Issuer"],
+                audience: jwtAudience,
+                //audience: _configuration["Jwt:Audience"],
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: credentials
-            );
+            ); 
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
