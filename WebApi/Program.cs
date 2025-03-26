@@ -42,13 +42,23 @@ builder.Services.AddScoped<IVoteRepository, VoteRepository>();
 builder.Services.AddScoped<IEmailWinnerService, EmailWinnerService>();
 builder.Services.AddHostedService<ChallengesExpiration>();
 
+var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ?? "";
 
 builder.Services.AddDbContext<DataContext>(options =>
-    options.UseMySql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        new MySqlServerVersion(new Version(7, 0, 0))
-    )
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
+    mySqlOptions => mySqlOptions.EnableRetryOnFailure())
 );
+
+//builder.Services.AddDbContext<DataContext>(options =>
+//options.UseMySql(Environment.GetEnvironmentVariable("DB_CONNECTION"),
+//new MySqlServerVersion(new Version(8, 0, 41))));
+
+//builder.Services.AddDbContext<DataContext>(options =>
+//    options.UseMySql(
+//        builder.Configuration.GetConnectionString("DefaultConnection"),
+//        new MySqlServerVersion(new Version(7, 0, 0))
+//    )
+//);
 
 
 
