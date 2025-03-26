@@ -27,9 +27,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-
-
-
 builder.Services.AddScoped<IS3Service, S3Service>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -42,14 +39,14 @@ builder.Services.AddScoped<IVoteRepository, VoteRepository>();
 builder.Services.AddScoped<IEmailWinnerService, EmailWinnerService>();
 builder.Services.AddHostedService<ChallengesExpiration>();
 
+Console.WriteLine("*************************************");
 Console.WriteLine(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"));
+Console.WriteLine("*************************************");
+
 
 builder.Services.AddDbContext<DataContext>(options =>
 options.UseMySql(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"),
-new MySqlServerVersion(new Version(8, 0, 22)), mysqlOptions => mysqlOptions.EnableRetryOnFailure()));
-
-
-
+ new MySqlServerVersion(new Version(8, 0, 22))));
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 
@@ -123,8 +120,8 @@ app.UseCors("AllowAll"); // חייב להיות לפני app.UseAuthorization()
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 
-    app.UseSwagger();
-    app.UseSwaggerUI();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 
 app.UseHttpsRedirection();
