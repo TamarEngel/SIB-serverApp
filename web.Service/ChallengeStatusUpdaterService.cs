@@ -69,7 +69,7 @@ namespace web.Service
             while (!stoppingToken.IsCancellationRequested)
             {
                 await UpdateChallengesStatus();
-                await Task.Delay(TimeSpan.FromDays(1), stoppingToken); // מחכה 24 שעות
+                await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken); // מחכה 24 שעות
             }
         }
 
