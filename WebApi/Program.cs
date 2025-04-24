@@ -37,11 +37,10 @@ builder.Services.AddScoped<ICreationRepository, CreationRepository>();
 builder.Services.AddScoped<IVoteService, VoteService>();
 builder.Services.AddScoped<IVoteRepository, VoteRepository>();
 builder.Services.AddScoped<IEmailWinnerService, EmailWinnerService>();
+builder.Services.AddScoped<IOpenAiService, OpenAiService>();
 builder.Services.AddHostedService<ChallengesExpiration>();
 
-Console.WriteLine("*************************************");
-Console.WriteLine(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"));
-Console.WriteLine("*************************************");
+
 
 
 builder.Services.AddDbContext<DataContext>(options =>
