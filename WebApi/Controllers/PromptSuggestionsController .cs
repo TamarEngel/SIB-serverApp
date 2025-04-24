@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using web.Core.Services;
 using web.Service;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -11,9 +12,9 @@ namespace Web.Api.Controllers
     [ApiController]
     public class PromptSuggestionsController : ControllerBase
     {
-        private readonly OpenAiService _openAiService;
+        private readonly IOpenAiService _openAiService;
 
-        public PromptSuggestionsController(OpenAiService openAiService)
+        public PromptSuggestionsController(IOpenAiService openAiService)
         {
             _openAiService = openAiService;
         }

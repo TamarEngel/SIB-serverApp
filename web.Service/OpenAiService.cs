@@ -17,7 +17,7 @@ namespace web.Service
         public OpenAiService(IConfiguration configuration)
         {
             _httpClient = new HttpClient();
-            _apiKey = configuration["OpenAi:ApiKey"];
+            _apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY") ;
         }
 
         public async Task<List<string>> GetPromptSuggestionsAsync(string topic, string description)
