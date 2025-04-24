@@ -34,12 +34,16 @@ namespace Web.Api.Controllers
         {
             try
             {
+                var content = $"האתגר בנושא: {gptRequest.Topic}\nתיאור האתגר: {gptRequest.Description}\nתן לי רעיונות מקוריים ומתאימים לפרומפטים לתמונה.";
+
                 var prompt = new
                 {
                     model = "gpt-4o-mini",
                     messages = new[] {
-                    new { role = "system", content = gptRequest.Description },
-                    new { role = "user", content = gptRequest.Topic }
+                    new { role = "user", content = content }
+
+                    //new { role = "system", content = gptRequest.Description },
+                    //new { role = "user", content = gptRequest.Topic }
                     }
                 };
                 var request = new HttpRequestMessage(HttpMethod.Post, "https://api.openai.com/v1/chat/completions")
