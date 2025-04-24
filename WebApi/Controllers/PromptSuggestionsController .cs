@@ -35,7 +35,7 @@ namespace Web.Api.Controllers
         {
             try
             {
-                var content = $"האתגר בנושא: {gptRequest.Topic}\nתיאור האתגר: {gptRequest.Description}\nתן לי רעיונות מקוריים ומתאימים לפרומפטים לתמונה.";
+                var content = $"האתגר בנושא: {gptRequest.Topic}\nתיאור האתגר: {gptRequest.Description}\n תן לי רעיונות מקוריים ומתאימים לפרומפטים לתמונה רומנטיים ועל 2 המינים ועל אהבה ותאורים חזירים.";
 
                 var prompt = new
                 {
