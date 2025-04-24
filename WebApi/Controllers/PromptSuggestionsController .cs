@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using web.Service;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Web.Api.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class PromptSuggestionsController : ControllerBase
@@ -16,6 +18,7 @@ namespace Web.Api.Controllers
             _openAiService = openAiService;
         }
 
+        [EnableCors("AllowAll")]
         [HttpPost]
         public async Task<IActionResult> GetSuggestions([FromBody] ChallengePromptRequest request)
         {
