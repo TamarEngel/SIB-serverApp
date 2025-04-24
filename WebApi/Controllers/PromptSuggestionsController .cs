@@ -39,9 +39,9 @@ namespace Web.Api.Controllers
 
                 var prompt = new
                 {
-                    model = "gpt-4o",
+                    model = "gpt-4o-mini",
                     messages = new[] {
-                new { role = "user", content = content }
+                    new { role = "user", content = content }
             }
                 };
 
